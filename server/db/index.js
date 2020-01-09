@@ -21,4 +21,15 @@ companydb.all = () => {
   });
 };
 
+companydb.one = (id) => {
+  return new Promise((reslove, reject) => {
+    connection.query(`SELECT * FROM employee WHERE id = ?`, [id], (err, results) => {
+      if(err) {
+        return reject(err);
+      }
+      return reslove(results);
+    });
+  });
+}
+
 module.exports = companydb;

@@ -38,7 +38,7 @@ companydb.one = (id) => {
 // edit "edit here"
 companydb.insert = () => {
   return new Promise((reslove, reject) => {
-    connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ?`, ["edit here"], (err, results) => {
+    connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, ["edit here"], (err, results) => {
       if(err) {
         return reject(err);
       }

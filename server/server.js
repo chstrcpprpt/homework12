@@ -1,12 +1,12 @@
 const express = require("express");
-const apiRouter = require("./routes");
+// const apiRouter = require("./routes");
 
 const app = express();
 
 app.use(express.json());
 
 // import routes - this is where the different controllers will go?
-app.use("/api/routeName", apiRouter);
+// app.use("/api/routeName", apiRouter);
 
 // static content
 

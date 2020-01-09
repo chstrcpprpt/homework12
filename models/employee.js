@@ -1,12 +1,4 @@
-const mysql = require("mysql");
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: 'I87cookies!',
-  database: 'company_db'
-});
+const connection = require("../server/db/connection");
 
 // let companydb = {};
 

@@ -67,7 +67,25 @@ const newDepartment = () => {
   });
 };
 
+// update employee role
+const updateEmployeeRole = () => {
+  const questions = [
+    {
+      name: "selectEmployee",
+      message: "Please select the employee whose role you would like to update"
+    },
+    {
+      name: "newRoleId",
+      message: "Please enter the employee's new role ID"
+    }
+  ];
 
+  inquirer.prompt(questions).then((answer) => {
+    const {selectEmployee, newRoleId} = answer;
+  });
+};
+
+// ==================================================
 // Ask user
 inquirer
   .prompt([

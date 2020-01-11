@@ -24,6 +24,7 @@ function newDepartment() {
       (err, data) => {
         if (err) throw err;
         console.log(data);
+        askUser()
     });
 
   });
@@ -59,6 +60,7 @@ function newRole() {
       (err, data) => {
         if (err) throw err;
         console.log(data);
+        askUser()
       });
 
   });
@@ -99,6 +101,7 @@ function newEmployee() {
       (err, data) => {
         if (err) throw err;
         console.log(data);
+        askUser()
       });
 
   });
@@ -111,6 +114,7 @@ function viewDepartment() {
     (err, data) => {
       if (err) throw err;
       console.log(data);
+      askUser()
     }
   );
 };
@@ -122,6 +126,7 @@ function viewRoles() {
     (err, data) => {
       if (err) throw err;
       console.log(data);
+      askUser()
     }
   );
 };
@@ -132,6 +137,7 @@ function viewEmployees() {
     (err, data) => {
       if (err) throw err;
       console.log(data);
+      askUser()
     }
   );
 };
@@ -184,6 +190,7 @@ function updateEmployeeRole() {
       (err, data) => {
         if (err) throw err;
         console.log(`${selectEmployee} updated successfully`);
+        askUser()
       }
     );
 
@@ -192,57 +199,59 @@ function updateEmployeeRole() {
 
 // ==================================================
 // Ask user
-inquirer
-  .prompt([
-    {
-      type: "list",
-      name: "userAction",
-      message: "What would you like to do?",
-      choices: [
-        "Add department", 
-        "Add role",
-        "Add employee",
-        "View department",
-        "View roles",
-        "View employees",
-        "Update employee roles"]
-    }
-  ])
-  .then(function(answer) {
-    switch (answer) {
-    case "Add department":
-      newDepartment();
-      break;
+function askUser() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "userAction",
+        message: "What would you like to do?",
+        choices: [
+          "Add department", 
+          "Add role",
+          "Add employee",
+          "View department",
+          "View roles",
+          "View employees",
+          "Update employee roles"]
+      }
+    ])
+    .then(function(answer) {
+      switch (answer) {
+      case "Add department":
+        newDepartment();
+        break;
 
-    case "Add role":
-      newRole();
-      break;
+      case "Add role":
+        newRole();
+        break;
 
-    case "Add employee":
-      newEmployee();
-      break;
+      case "Add employee":
+        newEmployee();
+        break;
 
-    case "View department":
-      songSearch();
-      break;
+      case "View department":
+        songSearch();
+        break;
 
-    case "View roles":
-      songSearch();
-      break;
+      case "View roles":
+        songSearch();
+        break;
 
-    case "View employees":
-      songSearch();
-      break;
+      case "View employees":
+        songSearch();
+        break;
 
-    case "Update employee roles":
-      updateEmployeeRole();
-      break;
+      case "Update employee roles":
+        updateEmployeeRole();
+        break;
 
-    case "exit":
-      connection.end();
-      break;
-    }
-  });
+      case "exit":
+        connection.end();
+        break;
+      }
+    });
+};
 
   // .then((answer) => {
   //   const {userAction} = answer;

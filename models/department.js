@@ -1,6 +1,6 @@
 const connection = require("../server/db/connection");
 
-class department {
+class Department {
   constructor() {
 
   };

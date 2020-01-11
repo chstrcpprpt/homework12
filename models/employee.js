@@ -2,7 +2,7 @@ const connection = require("../server/db/connection");
 
 // let companydb = {};
 
-class employee {
+class Employee {
   constructor() {
 
   };

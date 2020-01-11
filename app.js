@@ -17,7 +17,8 @@ function askUser() {
           "View department",
           "View roles",
           "View employees",
-          "Update employee roles"]
+          "Update employee roles",
+          "Exit"]
       }
     ])
     .then(function(answer) {
@@ -53,7 +54,7 @@ function askUser() {
         updateEmployeeRole();
         break;
 
-      case "exit":
+      case "Exit":
         connection.end();
         break;
       }
@@ -107,7 +108,7 @@ function newRole() {
     const {roleTitle, roleSalary, roleDepartmentId} = answer;
 
     connection.query(
-      "INSERT INTO roles SET ?",
+      "INSERT INTO role SET ?",
       {
         title: roleTitle,
         salary: roleSalary,
@@ -178,7 +179,7 @@ function viewDepartment() {
 // view roles
 function viewRoles() {
   connection.query(
-    "SELECT * FROM roles",
+    "SELECT * FROM role",
     (err, data) => {
       if (err) throw err;
       console.log(data);
@@ -189,7 +190,7 @@ function viewRoles() {
 // view employees
 function viewEmployees() {
   connection.query(
-    "SELECT * FROM employees",
+    "SELECT * FROM employee",
     (err, data) => {
       if (err) throw err;
       console.log(data);

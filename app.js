@@ -139,7 +139,7 @@ function viewEmployees() {
 // update employee role
 function updateEmployeeRole() {
   const employees = connection.query(
-    "SELECT CONCAT(first_name, " ", last_name) AS fullName FROM employee;",
+    'SELECT CONCAT(first_name, " ", last_name) AS fullName FROM employee;',
     (err, data) => {
       if (err) throw err;
       return data;
@@ -163,7 +163,7 @@ function updateEmployeeRole() {
     const {selectEmployee, newRoleId} = answer;
 
     const employeeId = connection.query(
-      "SELECT id FROM (SELECT id, CONCAT(first_name, " ", last_name) AS fullName FROM employee) a WHERE fullName = ?;",
+      'SELECT id FROM (SELECT id, CONCAT(first_name, " ", last_name) AS fullName FROM employee) a WHERE fullName = ?;',
       [selectEmployee],
       (err, data) => {
         if (err) throw err;

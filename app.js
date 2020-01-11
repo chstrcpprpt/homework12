@@ -72,7 +72,7 @@ function newDepartment() {
   const questions = [
     {
       name: "departmentName",
-      message: "Please enter the department name"
+      message: "Please enter the department name: "
     }
   ];
 
@@ -96,15 +96,15 @@ function newRole() {
   const questions = [
     {
       name: "roleTitle",
-      message: "Please enter the role title"
+      message: "Please enter the role title: "
     },
     {
       name: "roleSalary",
-      message: "Please enter the role salary"
+      message: "Please enter the role salary: "
     },
     {
       name: "roleDepartmentId",
-      message: "Please enter department ID for the new role"
+      message: "Please enter department ID for the new role: "
     }
   ];
 
@@ -132,19 +132,19 @@ function newEmployee() {
   const questions = [
     {
       name: "employeeFirstName",
-      message: "Please enter employee first name"
+      message: "Please enter employee first name: "
     },
     {
       name: "employeeLastName",
-      message: "Please enter employee last name"
+      message: "Please enter employee last name: "
     },
     {
       name: "employeeRoleId",
-      message: "Please enter employee role ID"
+      message: "Please enter employee role ID: "
     },
     {
       name: "employeeManagerId",
-      message: "Please enter employee manager ID (if applicable)",
+      message: "Please enter employee manager ID (if applicable): ",
       default: "NULL"
     }
   ];
@@ -161,7 +161,7 @@ function newEmployee() {
       },
       (err, data) => {
         if (err) throw err;
-        console.log(data);
+        console.log(`${employeeFirstName} ${employeeLastName} added successfully`);
         askUser()
       });
 

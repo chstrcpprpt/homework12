@@ -17,7 +17,11 @@ function newDepartment() {
   inquirer.prompt(questions).then((answer) => {
     const {departmentName} = answer;
 
-    connection.query("INSERT INTO department (name) VALUES ?", [departmentName], (err, data) => {
+    connection.query(
+      "INSERT INTO department (name) VALUES ?", 
+      [departmentName], 
+      (err, data) => {
+      if (err) throw err;
 
     })
 
@@ -43,6 +47,19 @@ function newRole() {
 
   inquirer.prompt(questions).then((answer) => {
     const {roleTitle, roleSalary, roleDepartmentId} = answer;
+
+    connection.query(
+      "INSERT INTO roles SET ?",
+      {
+        title: roleTitle,
+        salary: roleSalary,
+        department_id: roleDepartmentId
+      },
+      (err, res) => {
+        if (err) throw err;
+
+      })
+
   });
 };
 
@@ -70,12 +87,30 @@ function newEmployee() {
 
   inquirer.prompt(questions).then((answer) => {
     const {employeeFirstName, employeeLastName, employeeRoleId, employeeManagerId} = answer;
+
+    connection.query("INSERT INTO employee SET ?", 
+      {
+        first_name: employeeFirstName,
+        last_name: employeeLastName,
+        role_id: employeeRoleId,
+        manager_id: employeeManagerId
+      },
+      (err, res) => {
+        if (err) throw err;
+
+      })
+
   });
 };
 
 // view department
 function viewDepartment() {
-
+  connection.query(
+    "SELECT * FROM department",
+    (err, res) => {
+      if (err) throw err;
+    }
+  )
 };
 
 // view roles

@@ -1,10 +1,63 @@
-// const express = require("express");
 const inquirer = require("inquirer");
 const cTable = require('console.table');
 const connection = require("./connection");
 
-// const employee = require("../models/employee");
-// const router = express.Router();
+// Ask user
+function askUser() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "userAction",
+        message: "What would you like to do?",
+        choices: [
+          "Add department", 
+          "Add role",
+          "Add employee",
+          "View department",
+          "View roles",
+          "View employees",
+          "Update employee roles"]
+      }
+    ])
+    .then(function(answer) {
+      switch (answer) {
+      case "Add department":
+        newDepartment();
+        break;
+
+      case "Add role":
+        newRole();
+        break;
+
+      case "Add employee":
+        newEmployee();
+        break;
+
+      case "View department":
+        viewDepartment();
+        break;
+
+      case "View roles":
+        viewRoles();
+        break;
+
+      case "View employees":
+        viewEmployees();
+        break;
+
+      case "Update employee roles":
+        updateEmployeeRole();
+        break;
+
+      case "exit":
+        connection.end();
+        break;
+      }
+    });
+};
+
+// ==================================================
 
 // new department
 function newDepartment() {
@@ -197,91 +250,6 @@ function updateEmployeeRole() {
   });
 };
 
-// ==================================================
-// Ask user
-function askUser() {
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "userAction",
-        message: "What would you like to do?",
-        choices: [
-          "Add department", 
-          "Add role",
-          "Add employee",
-          "View department",
-          "View roles",
-          "View employees",
-          "Update employee roles"]
-      }
-    ])
-    .then(function(answer) {
-      switch (answer) {
-      case "Add department":
-        newDepartment();
-        break;
-
-      case "Add role":
-        newRole();
-        break;
-
-      case "Add employee":
-        newEmployee();
-        break;
-
-      case "View department":
-        songSearch();
-        break;
-
-      case "View roles":
-        songSearch();
-        break;
-
-      case "View employees":
-        songSearch();
-        break;
-
-      case "Update employee roles":
-        updateEmployeeRole();
-        break;
-
-      case "exit":
-        connection.end();
-        break;
-      }
-    });
-};
-
-  // .then((answer) => {
-  //   const {userAction} = answer;
-  //   console.log(userAction);
-  // });
-
-// GET all employees
-// router.get("/api/employees", async (req, res) => {
-//   try {
-//     let results = await e1324mployee.view();
-//     res.json(results);
-//   } catch(err) {
-//     console.log(err);
-//     res.sendStatus(500);
-//   }
-// });
-
-// router.put()
-
-// router.post()
-
-// router.delete()
-// router.delete("/api/employees/:id", async (req, res) => {
-//   try {
-//     let results = await employee.delete(req.params.id);
-//     res.json(results);
-//   } catch(err) {
-//     console.log(err);
-//     res.sendStatus(500);
-//   }
-// });
-
-module.exports = router;
+//==================================================
+// run app
+askUser();

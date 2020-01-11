@@ -1,11 +1,53 @@
 const express = require("express");
 const inquirer = require("inquirer");
+const connection = require("./connection");
 
 // const employee = require("../models/employee");
 const router = express.Router();
 
+// new department
+function newDepartment() {
+  const questions = [
+    {
+      name: "departmentName",
+      message: "Please enter the department name"
+    }
+  ];
+
+  inquirer.prompt(questions).then((answer) => {
+    const {departmentName} = answer;
+
+    connection.query("INSERT INTO department (name) VALUES ?", [departmentName], (err, data) => {
+
+    })
+
+  });
+};
+
+// new role
+function newRole() {
+  const questions = [
+    {
+      name: "roleTitle",
+      message: "Please enter the role title"
+    },
+    {
+      name: "roleSalary",
+      message: "Please enter the role salary"
+    },
+    {
+      name: "roleDepartmentId",
+      message: "Please enter department ID for the new role"
+    }
+  ];
+
+  inquirer.prompt(questions).then((answer) => {
+    const {roleTitle, roleSalary, roleDepartmentId} = answer;
+  });
+};
+
 // new employee
-const newEmployee = () => {
+function newEmployee() {
   const questions = [
     {
       name: "employeeFirstName",
@@ -31,44 +73,22 @@ const newEmployee = () => {
   });
 };
 
-// new role
-const newRole = () => {
-  const questions = [
-    {
-      name: "roleTitle",
-      message: "Please enter the role title"
-    },
-    {
-      name: "roleSalary",
-      message: "Please enter the role salary"
-    },
-    {
-      name: "roleDepartmentId",
-      message: "Please enter department ID for the new role"
-    }
-  ];
+// view department
+function viewDepartment() {
 
-  inquirer.prompt(questions).then((answer) => {
-    const {roleTitle, roleSalary, roleDepartmentId} = answer;
-  });
 };
 
-// new department
-const newDepartment = () => {
-  const questions = [
-    {
-      name: "departmentName",
-      message: "Please enter the department name"
-    }
-  ];
+// view roles
+function viewRoles() {
 
-  inquirer.prompt(questions).then((answer) => {
-    const {departmentName} = answer;
-  });
+};
+// view employees
+function viewEmployees() {
+
 };
 
 // update employee role
-const updateEmployeeRole = () => {
+function updateEmployeeRole() {
   const questions = [
     {
       name: "selectEmployee",
@@ -103,10 +123,46 @@ inquirer
         "Update employee roles"]
     }
   ])
-  .then((answer) => {
-    const {userAction} = answer;
-    console.log(userAction);
+  .then(function(answer) {
+    switch (answer) {
+    case "Add department":
+      newDepartment();
+      break;
+
+    case "Add role":
+      newRole();
+      break;
+
+    case "Add employee":
+      newEmployee();
+      break;
+
+    case "View department":
+      songSearch();
+      break;
+
+    case "View roles":
+      songSearch();
+      break;
+
+    case "View employees":
+      songSearch();
+      break;
+
+    case "Update employee roles":
+      updateEmployeeRole();
+      break;
+
+    case "exit":
+      connection.end();
+      break;
+    }
   });
+
+  // .then((answer) => {
+  //   const {userAction} = answer;
+  //   console.log(userAction);
+  // });
 
 // GET all employees
 // router.get("/api/employees", async (req, res) => {

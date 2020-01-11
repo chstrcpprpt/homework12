@@ -171,7 +171,7 @@ function newEmployee() {
 // view department
 function viewDepartment() {
   connection.query(
-    "SELECT name AS Department FROM department",
+    `SELECT name AS Department, id AS "Department ID" FROM department`,
     (err, data) => {
       if (err) throw err;
       console.table("\n", data);
@@ -184,7 +184,13 @@ function viewDepartment() {
 // view roles
 function viewRoles() {
   connection.query(
-    "SELECT title AS Title FROM role",
+    `SELECT 
+    title AS Title, 
+    salary AS Salary,
+    name AS Department,
+    r.id AS "Role ID"
+    FROM role r
+    LEFT JOIN department d ON r.department_id = d.id;`,
     (err, data) => {
       if (err) throw err;
       console.table("\n", data);

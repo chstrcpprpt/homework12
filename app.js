@@ -2,6 +2,9 @@ const inquirer = require("inquirer");
 const cTable = require('console.table');
 const connection = require("./connection");
 
+console.log("\n Welcome to the greatest employee tracker of all time");
+console.log(" \n ============================================================ \n")
+
 // Ask user
 function askUser() {
   inquirer
@@ -55,6 +58,7 @@ function askUser() {
         break;
 
       case "Exit":
+        console.log("Thanks for using, Goodbye \n");
         connection.end();
         break;
       }
@@ -167,10 +171,11 @@ function newEmployee() {
 // view department
 function viewDepartment() {
   connection.query(
-    "SELECT * FROM department",
+    "SELECT name AS Department FROM department",
     (err, data) => {
       if (err) throw err;
-      console.log(data);
+      console.table("\n", data);
+      console.log(" \n ------------------------------------------------------------ \n");
       askUser()
     }
   );
@@ -179,10 +184,11 @@ function viewDepartment() {
 // view roles
 function viewRoles() {
   connection.query(
-    "SELECT * FROM role",
+    "SELECT title AS Title FROM role",
     (err, data) => {
       if (err) throw err;
-      console.log(data);
+      console.table("\n", data);
+      console.log(" \n ------------------------------------------------------------ \n");
       askUser()
     }
   );
@@ -190,10 +196,20 @@ function viewRoles() {
 // view employees
 function viewEmployees() {
   connection.query(
-    "SELECT * FROM employee",
+    `SELECT 
+    CONCAT(e.first_name, " ", e.last_name) AS Name,
+    title AS Title,
+    name AS Department,
+    salary AS Salary,
+    CONCAT(e2.first_name, " ", e2.last_name) AS Manager
+    FROM employee e 
+    LEFT JOIN role r ON e.role_id = r.id
+    LEFT JOIN department d ON r.department_id = d.id
+    LEFT JOIN employee e2 ON e.manager_id = e2.id;`,
     (err, data) => {
       if (err) throw err;
-      console.log(data);
+      console.table("\n", data);
+      console.log(" \n ------------------------------------------------------------ \n");
       askUser()
     }
   );

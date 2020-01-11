@@ -21,7 +21,10 @@ function askUser() {
       }
     ])
     .then(function(answer) {
-      switch (answer) {
+      const {userAction} = answer;
+      // console.log(userAction);
+
+      switch (userAction) {
       case "Add department":
         newDepartment();
         break;

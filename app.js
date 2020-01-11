@@ -84,7 +84,8 @@ function newDepartment() {
       [departmentName], 
       (err, data) => {
         if (err) throw err;
-        console.log(data);
+        console.log(`Department: ${departmentName} created successfully`);
+        console.log(" \n ------------------------------------------------------------ \n");
         askUser()
     });
 
@@ -120,7 +121,8 @@ function newRole() {
       },
       (err, data) => {
         if (err) throw err;
-        console.log(data);
+        console.log(`Role: ${roleTitle} created successfully`);
+        console.log(" \n ------------------------------------------------------------ \n");
         askUser()
       });
 
@@ -162,6 +164,7 @@ function newEmployee() {
       (err, data) => {
         if (err) throw err;
         console.log(`${employeeFirstName} ${employeeLastName} added successfully`);
+        console.log(" \n ------------------------------------------------------------ \n");
         askUser()
       });
 
@@ -223,11 +226,16 @@ function viewEmployees() {
 
 // update employee role
 function updateEmployeeRole() {
-  const employees = connection.query(
+  let employeeArray = [];
+
+  connection.query(
     'SELECT CONCAT(first_name, " ", last_name) AS fullName FROM employee;',
     (err, data) => {
       if (err) throw err;
-      return data;
+
+      for (const el of data) {
+        employeeArray.push(el.fullName);
+      };
     }
   );
 
@@ -236,13 +244,15 @@ function updateEmployeeRole() {
       name: "selectEmployee",
       message: "Please select the employee whose role you would like to update",
       type: "List",
-      choices: employee
+      choices: employeeArray
     },
     {
       name: "newRoleId",
       message: "Please enter the employee's new role ID"
     }
   ];
+
+  console.log(questions);
 
   inquirer.prompt(questions).then((answer) => {
     const {selectEmployee, newRoleId} = answer;
@@ -252,6 +262,7 @@ function updateEmployeeRole() {
       [selectEmployee],
       (err, data) => {
         if (err) throw err;
+        console.log(data);
         return data;
       }
     );
@@ -269,6 +280,7 @@ function updateEmployeeRole() {
       (err, data) => {
         if (err) throw err;
         console.log(`${selectEmployee} updated successfully`);
+        console.log(" \n ------------------------------------------------------------ \n");
         askUser()
       }
     );

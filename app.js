@@ -1,9 +1,10 @@
-const express = require("express");
+// const express = require("express");
 const inquirer = require("inquirer");
+const cTable = require('console.table');
 const connection = require("./connection");
 
 // const employee = require("../models/employee");
-const router = express.Router();
+// const router = express.Router();
 
 // new department
 function newDepartment() {
@@ -21,9 +22,9 @@ function newDepartment() {
       "INSERT INTO department (name) VALUES ?", 
       [departmentName], 
       (err, data) => {
-      if (err) throw err;
-
-    })
+        if (err) throw err;
+        console.log(data);
+    });
 
   });
 };
@@ -55,10 +56,10 @@ function newRole() {
         salary: roleSalary,
         department_id: roleDepartmentId
       },
-      (err, res) => {
+      (err, data) => {
         if (err) throw err;
-
-      })
+        console.log(data);
+      });
 
   });
 };
@@ -95,10 +96,10 @@ function newEmployee() {
         role_id: employeeRoleId,
         manager_id: employeeManagerId
       },
-      (err, res) => {
+      (err, data) => {
         if (err) throw err;
-
-      })
+        console.log(data);
+      });
 
   });
 };
@@ -107,27 +108,50 @@ function newEmployee() {
 function viewDepartment() {
   connection.query(
     "SELECT * FROM department",
-    (err, res) => {
+    (err, data) => {
       if (err) throw err;
+      console.log(data);
     }
-  )
+  );
 };
 
 // view roles
 function viewRoles() {
-
+  connection.query(
+    "SELECT * FROM roles",
+    (err, data) => {
+      if (err) throw err;
+      console.log(data);
+    }
+  );
 };
 // view employees
 function viewEmployees() {
-
+  connection.query(
+    "SELECT * FROM employees",
+    (err, data) => {
+      if (err) throw err;
+      console.log(data);
+    }
+  );
 };
 
 // update employee role
 function updateEmployeeRole() {
+  const employees = connection.query(
+    "SELECT CONCAT(first_name, " ", last_name) AS fullName FROM employee;",
+    (err, data) => {
+      if (err) throw err;
+      return data;
+    }
+  );
+
   const questions = [
     {
       name: "selectEmployee",
-      message: "Please select the employee whose role you would like to update"
+      message: "Please select the employee whose role you would like to update",
+      type: "List",
+      choices: employee
     },
     {
       name: "newRoleId",
@@ -137,6 +161,32 @@ function updateEmployeeRole() {
 
   inquirer.prompt(questions).then((answer) => {
     const {selectEmployee, newRoleId} = answer;
+
+    const employeeId = connection.query(
+      "SELECT id FROM (SELECT id, CONCAT(first_name, " ", last_name) AS fullName FROM employee) a WHERE fullName = ?;",
+      [selectEmployee],
+      (err, data) => {
+        if (err) throw err;
+        return data;
+      }
+    );
+
+    connection.query(
+      "UPDATE employee SET ? WHERE ?",
+      [
+        {
+          role_id: newRoleId
+        },
+        {
+          id: employeeId
+        }
+      ],
+      (err, data) => {
+        if (err) throw err;
+        console.log(`${selectEmployee} updated successfully`);
+      }
+    );
+
   });
 };
 

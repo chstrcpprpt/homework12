@@ -255,31 +255,32 @@ function updateEmployeeRole() {
       inquirer.prompt(questions).then((answer) => {
         const {selectEmployee, newRoleId} = answer;
     
-        const employeeId = connection.query(
+        connection.query(
           'SELECT id FROM (SELECT id, CONCAT(first_name, " ", last_name) AS fullName FROM employee) a WHERE fullName = ?;',
           [selectEmployee],
           (err, data) => {
             if (err) throw err;
-            console.log(data);
-            return data;
-          }
-        );
-    
-        connection.query(
-          "UPDATE employee SET ? WHERE ?",
-          [
-            {
-              role_id: newRoleId
-            },
-            {
-              id: employeeId
-            }
-          ],
-          (err, data) => {
-            if (err) throw err;
-            console.log(`${selectEmployee} updated successfully`);
-            console.log(" \n ------------------------------------------------------------ \n");
-            askUser()
+            // console.log(data[0].id);
+            // return data[0].id;
+
+            connection.query(
+              "UPDATE employee SET ? WHERE ?",
+              [
+                {
+                  role_id: newRoleId
+                },
+                {
+                  id: data[0].id
+                }
+              ],
+              (err, data) => {
+                if (err) throw err;
+                console.log(`\n ${selectEmployee} updated successfully`);
+                console.log(" \n ------------------------------------------------------------ \n");
+                askUser()
+              }
+            );
+
           }
         );
     

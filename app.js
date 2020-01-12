@@ -188,11 +188,12 @@ function viewDepartment() {
 function viewRoles() {
   connection.query(
     `SELECT 
-    title AS Title, 
-    salary AS Salary,
-    name AS Department,
-    r.id AS "Role ID"
-    FROM role r
+      title AS Title, 
+      salary AS Salary,
+      name AS Department,
+      r.id AS "Role ID"
+    FROM 
+      role r
     LEFT JOIN department d ON r.department_id = d.id;`,
     (err, data) => {
       if (err) throw err;
@@ -206,12 +207,13 @@ function viewRoles() {
 function viewEmployees() {
   connection.query(
     `SELECT 
-    CONCAT(e.first_name, " ", e.last_name) AS Name,
-    title AS Title,
-    name AS Department,
-    salary AS Salary,
-    CONCAT(e2.first_name, " ", e2.last_name) AS Manager
-    FROM employee e 
+      CONCAT(e.first_name, " ", e.last_name) AS Name,
+      title AS Title,
+      name AS Department,
+      salary AS Salary,
+      CONCAT(e2.first_name, " ", e2.last_name) AS Manager
+    FROM 
+      employee e 
     LEFT JOIN role r ON e.role_id = r.id
     LEFT JOIN department d ON r.department_id = d.id
     LEFT JOIN employee e2 ON e.manager_id = e2.id;`,

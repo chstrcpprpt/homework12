@@ -236,56 +236,58 @@ function updateEmployeeRole() {
       for (const el of data) {
         employeeArray.push(el.fullName);
       };
+
+      const questions = [
+        {
+          type: "list",
+          name: "selectEmployee",
+          message: "Please select the employee whose role you would like to update",
+          choices: employeeArray
+        },
+        {
+          name: "newRoleId",
+          message: "Please enter the employee's new role ID"
+        }
+      ];
+    
+      // console.log(questions);
+    
+      inquirer.prompt(questions).then((answer) => {
+        const {selectEmployee, newRoleId} = answer;
+    
+        const employeeId = connection.query(
+          'SELECT id FROM (SELECT id, CONCAT(first_name, " ", last_name) AS fullName FROM employee) a WHERE fullName = ?;',
+          [selectEmployee],
+          (err, data) => {
+            if (err) throw err;
+            console.log(data);
+            return data;
+          }
+        );
+    
+        connection.query(
+          "UPDATE employee SET ? WHERE ?",
+          [
+            {
+              role_id: newRoleId
+            },
+            {
+              id: employeeId
+            }
+          ],
+          (err, data) => {
+            if (err) throw err;
+            console.log(`${selectEmployee} updated successfully`);
+            console.log(" \n ------------------------------------------------------------ \n");
+            askUser()
+          }
+        );
+    
+      });
     }
   );
 
-  const questions = [
-    {
-      name: "selectEmployee",
-      message: "Please select the employee whose role you would like to update",
-      type: "List",
-      choices: employeeArray
-    },
-    {
-      name: "newRoleId",
-      message: "Please enter the employee's new role ID"
-    }
-  ];
-
-  console.log(questions);
-
-  inquirer.prompt(questions).then((answer) => {
-    const {selectEmployee, newRoleId} = answer;
-
-    const employeeId = connection.query(
-      'SELECT id FROM (SELECT id, CONCAT(first_name, " ", last_name) AS fullName FROM employee) a WHERE fullName = ?;',
-      [selectEmployee],
-      (err, data) => {
-        if (err) throw err;
-        console.log(data);
-        return data;
-      }
-    );
-
-    connection.query(
-      "UPDATE employee SET ? WHERE ?",
-      [
-        {
-          role_id: newRoleId
-        },
-        {
-          id: employeeId
-        }
-      ],
-      (err, data) => {
-        if (err) throw err;
-        console.log(`${selectEmployee} updated successfully`);
-        console.log(" \n ------------------------------------------------------------ \n");
-        askUser()
-      }
-    );
-
-  });
+  
 };
 
 //==================================================
